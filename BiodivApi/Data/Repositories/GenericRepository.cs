@@ -28,7 +28,12 @@ namespace BiodivApi.Data.Repositories
 
         public async Task<T> GetRandom()
         {
-            return (await _dbContext.Set<T>().ToListAsync())
+            var query = GetAll();
+            query = _dbContext.Model
+                .FindEntityType(typeof(T))
+                .GetNavigations()
+                .Aggregate(query, (current, property) => current.Include(property.Name));
+            return (await query.ToListAsync())
                 .OrderBy(_ => Guid.NewGuid())
                 .FirstOrDefault();
         }
