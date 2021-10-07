@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using BiodivApi.Attributes;
 using BiodivApi.Data.Dtos;
+using BiodivApi.Entities;
 using BiodivApi.Entities.Enums;
 using BiodivApi.Services.LocalDistributionsService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiodivApi.Controllers
@@ -20,13 +22,15 @@ namespace BiodivApi.Controllers
         }
 
         [HttpPost("Species/{specieId:int}/LocalDistributions")]
-        public async Task<ActionResult> UploadLocalDistribution(int specieId,
+        public async Task<LocalDistribution> UploadLocalDistribution(int specieId,
             [FromForm] LocalDistributionCreateDto distributionCreateDto)
         {
             var localDistribution = await _distributionsService.CreateLocalDistribution(specieId,distributionCreateDto);
-            return Ok(localDistribution);
+            return localDistribution;
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("[controller]/{id:int}")]
         public async Task<ActionResult> Put(int id,[FromForm]LocalDistributionUpdateDto distributionUpdateDto)
         {
@@ -39,6 +43,8 @@ namespace BiodivApi.Controllers
             return NoContent();
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("[controller]/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
