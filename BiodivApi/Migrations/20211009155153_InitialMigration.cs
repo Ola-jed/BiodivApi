@@ -145,7 +145,7 @@ namespace BiodivApi.Migrations
             migrationBuilder.InsertData(
                 table: "LocalDistributions",
                 columns: new[] { "Id", "Image", "Place", "SpecieId" },
-                values: new object[] { 1, "/LocalDistribution/1.png", "Bénin", 1 });
+                values: new object[] { 1, "wwroot/LocalDistribution/1.png", "Bénin", 1 });
 
             migrationBuilder.InsertData(
                 table: "LocalNames",
@@ -155,7 +155,7 @@ namespace BiodivApi.Migrations
             migrationBuilder.InsertData(
                 table: "SpeciePhotos",
                 columns: new[] { "Id", "Photo", "SpecieId" },
-                values: new object[] { 1, "/SpeciePhoto/1.png", 1 });
+                values: new object[] { 1, "wwwroot/SpeciePhoto/1.png", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocalDistributions_SpecieId",
