@@ -19,7 +19,7 @@ namespace BiodivApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("Biodiv.Entities.ApiKey", b =>
+            modelBuilder.Entity("BiodivApi.Entities.ApiKey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace BiodivApi.Migrations
                     b.ToTable("ApiKeys");
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.LocalDistribution", b =>
+            modelBuilder.Entity("BiodivApi.Entities.LocalDistribution", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,13 +72,13 @@ namespace BiodivApi.Migrations
                         new
                         {
                             Id = 1,
-                            Image = "/LocalDistribution/1.png",
+                            Image = "wwroot/LocalDistribution/1.png",
                             Place = "Bénin",
                             SpecieId = 1
                         });
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.LocalName", b =>
+            modelBuilder.Entity("BiodivApi.Entities.LocalName", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,7 +114,7 @@ namespace BiodivApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.Specie", b =>
+            modelBuilder.Entity("BiodivApi.Entities.Specie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -524,7 +524,7 @@ namespace BiodivApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.SpeciePhoto", b =>
+            modelBuilder.Entity("BiodivApi.Entities.SpeciePhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -549,39 +549,39 @@ namespace BiodivApi.Migrations
                         new
                         {
                             Id = 1,
-                            Photo = "/SpeciePhoto/1.png",
+                            Photo = "wwwroot/SpeciePhoto/1.png",
                             SpecieId = 1
                         });
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.LocalDistribution", b =>
+            modelBuilder.Entity("BiodivApi.Entities.LocalDistribution", b =>
                 {
-                    b.HasOne("Biodiv.Entities.Specie", null)
+                    b.HasOne("BiodivApi.Entities.Specie", null)
                         .WithMany("LocalDistributions")
                         .HasForeignKey("SpecieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.LocalName", b =>
+            modelBuilder.Entity("BiodivApi.Entities.LocalName", b =>
                 {
-                    b.HasOne("Biodiv.Entities.Specie", null)
+                    b.HasOne("BiodivApi.Entities.Specie", null)
                         .WithMany("LocalNames")
                         .HasForeignKey("SpecieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.SpeciePhoto", b =>
+            modelBuilder.Entity("BiodivApi.Entities.SpeciePhoto", b =>
                 {
-                    b.HasOne("Biodiv.Entities.Specie", null)
+                    b.HasOne("BiodivApi.Entities.Specie", null)
                         .WithMany("SpeciePhotos")
                         .HasForeignKey("SpecieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Biodiv.Entities.Specie", b =>
+            modelBuilder.Entity("BiodivApi.Entities.Specie", b =>
                 {
                     b.Navigation("LocalDistributions");
 

@@ -389,7 +389,7 @@ namespace BiodivApi.Extensions
             new()
             {
                 Id = 1,
-                Photo = "/SpeciePhoto/1.png",
+                Photo = "wwwroot/SpeciePhoto/1.png",
                 SpecieId = 1
             }
         };
@@ -399,7 +399,7 @@ namespace BiodivApi.Extensions
             new()
             {
                 Id = 1,
-                Image = "/LocalDistribution/1.png",
+                Image = "wwroot/LocalDistribution/1.png",
                 Place = "Bénin",
                 SpecieId = 1
             }
