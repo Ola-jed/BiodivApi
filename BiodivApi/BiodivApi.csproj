@@ -14,11 +14,17 @@
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controllers" />
+      <Folder Include="wwwroot\Temp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BiodivImageComparison\BiodivImageComparison.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Biodiv.Entities;
 using BiodivApi.Data.Dtos;
 using BiodivApi.Data.Repositories;
 using BiodivApi.Entities;

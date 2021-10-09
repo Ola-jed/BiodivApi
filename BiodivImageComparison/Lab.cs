@@ -53,21 +53,17 @@ namespace BiodivImageComparison
         /// <returns>The color difference</returns>
         public double DeltaE94(Lab rhs)
         {
-            var deltaL = L - rhs.L;
-            var c1 = Math.Sqrt(A * A + B * B);
-            var c2 = Math.Sqrt(rhs.A * rhs.A + rhs.B * rhs.B);
+            var deltaL = rhs.L - L;
+            var c1 = Math.Sqrt(rhs.A * rhs.A + rhs.B * rhs.B);
+            var c2 = Math.Sqrt(A * A + B * B);
             var deltaC = c1 - c2;
             var deltaA = A - rhs.A;
             var deltaB = B - rhs.B;
             var deltaH = Math.Sqrt(Math.Pow(deltaA, 2) + Math.Pow(deltaB, 2) - Math.Pow(deltaC, 2));
-            const double sL = 1d;
-            const double k1 = 0.045;
-            const double k2 = 0.015;
-            var sc = 1 + k1 * c1;
-            var sh = 1 + k2 * c1;
-            return Math.Sqrt(
-                (deltaL / sL) * (deltaL / sL) + (deltaC / sc) * (deltaC / sc) + (deltaH / sh) * (deltaH / sh)
-            );
+            var sc = 1 + 0.045 * c1;
+            var sh = 1 + 0.015 * c1;
+            var result = Math.Sqrt(Math.Pow(deltaL, 2) + Math.Pow(deltaC / sc, 2) + Math.Pow(deltaH / sh, 2));
+            return double.IsNaN(result) ? 0 : result;
         }
     }
 }

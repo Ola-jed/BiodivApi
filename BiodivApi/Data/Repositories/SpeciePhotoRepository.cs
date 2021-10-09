@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Biodiv.Entities;
 using BiodivApi.Data.Context;
 using BiodivApi.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +13,11 @@ namespace BiodivApi.Data.Repositories
     {
         public SpeciePhotoRepository(BiodivDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<IEnumerable<SpeciePhoto>> GetSpeciePhotos()
+        {
+            return await GetAll().ToListAsync();
         }
 
         public async Task<List<SpeciePhoto>> Find(Expression<Func<SpeciePhoto, bool>> predicate)
