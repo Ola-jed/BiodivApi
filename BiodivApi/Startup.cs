@@ -4,6 +4,7 @@ using BiodivApi.Extensions;
 using BiodivApi.Services.ApiKeyService;
 using BiodivApi.Services.LocalDistributionsService;
 using BiodivApi.Services.LocalNamesService;
+using BiodivApi.Services.SpeciePhotoComparisonService;
 using BiodivApi.Services.SpeciesPhotosService;
 using BiodivApi.Services.SpeciesService;
 using BiodivApi.Services.StorageService;
@@ -40,6 +41,7 @@ namespace BiodivApi
             services.AddScoped<IStorageService, LocalStorageService>();
             services.AddScoped<ILocalNamesService, LocalNamesService>();
             services.AddScoped<ISpeciePhotoService, SpeciePhotoService>();
+            services.AddScoped<ISpeciePhotoComparisonService, DeltaEComparisonService>();
             services.AddScoped<ILocalDistributionsService, LocalDistributionsService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMemoryCache();

@@ -8,6 +8,7 @@ using BiodivApi.Services.StorageService;
 using BiodivImageComparison;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace BiodivApi.Services.SpeciePhotoComparisonService
 {
@@ -29,30 +30,35 @@ namespace BiodivApi.Services.SpeciePhotoComparisonService
 
         public async Task<Specie> GetMostSimilarSpecie(SpecieIdentificationDto identificationDto)
         {
+            var tempLocation = await _storageService.Save(identificationDto.Photo, TempFolder);
             var speciePhotos = await _speciePhotoRepository.GetSpeciePhotos();
-            var data = speciePhotos.Select(async speciePhoto => new
+            var data = speciePhotos.Select(speciePhoto => new
             {
                 SpeciePhoto = speciePhoto,
-                DeltaE = await GetTotalDeltaE(identificationDto, speciePhoto)
+                DeltaE = GetTotalDeltaE(tempLocation, speciePhoto).Result
             }).ToList();
-            var selectedSpecie = (await data.OrderByDescending(async v => (await v).DeltaE).First()).SpeciePhoto;
-            return await _specieRepository.GetById(selectedSpecie.SpecieId);
+            var selectedSpecieId = data.OrderBy(v => v.DeltaE).First().SpeciePhoto.SpecieId;
+            await _storageService.Delete(tempLocation);
+            return await _specieRepository.GetById(selectedSpecieId);
         }
 
-        private async Task<double> GetTotalDeltaE(SpecieIdentificationDto identificationDto,
+        private static async Task<double> GetTotalDeltaE(string tempImageLocation,
             SpeciePhoto photo,
             DeltaEAlgorithm deltaEAlgorithm = DeltaEAlgorithm.DeltaE76)
         {
-            var tempImageLocation = await _storageService.Save(identificationDto.Photo, TempFolder);
             var img = await Image.LoadAsync<Rgb24>(tempImageLocation);
-            var otherImage = await Image.LoadAsync<Rgb24>(photo.Photo);
+            var comparisonImage = await Image.LoadAsync<Rgb24>(photo.Photo);
+            var minWidth = Math.Min(img.Width, comparisonImage.Width);
+            var minHeight = Math.Min(img.Height, comparisonImage.Height);
+            img.Mutate(i => i.Resize(minWidth,minHeight));
+            comparisonImage.Mutate(i => i.Resize(minWidth,minHeight));
             double delta = 0;
-            for (var i = 0; i < img.Width; i++)
+            for (var i = 0; i < minWidth; i++)
             {
-                for (var j = 0; j < img.Height; j++)
+                for (var j = 0; j < minHeight; j++)
                 {
                     var c = img[i, j];
-                    var v = otherImage[i, j];
+                    var v = comparisonImage[i, j];
                     delta += deltaEAlgorithm switch
                     {
                         DeltaEAlgorithm.DeltaE94 => c.Rgb24ToRgb().ToLab().DeltaE94(v.Rgb24ToRgb().ToLab()),
@@ -61,8 +67,6 @@ namespace BiodivApi.Services.SpeciePhotoComparisonService
                     };
                 }
             }
-
-            await _storageService.Delete(tempImageLocation);
             return delta;
         }
     }
