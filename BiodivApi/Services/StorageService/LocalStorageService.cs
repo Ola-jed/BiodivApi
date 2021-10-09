@@ -20,7 +20,6 @@ namespace BiodivApi.Services.StorageService
             var extension = Path.GetExtension(file.FileName);
             var fileName = DateTime.Now.Ticks + extension;
             var pathBuilt = Path.Combine(_env.WebRootPath, baseDirectory);
-            Console.WriteLine(pathBuilt);
             if (!Directory.Exists(pathBuilt))
             {
                 Directory.CreateDirectory(pathBuilt);
@@ -28,7 +27,7 @@ namespace BiodivApi.Services.StorageService
             var path = Path.Combine(pathBuilt, fileName);
             await using var stream = new FileStream(path, FileMode.Create);
             await file.CopyToAsync(stream);
-            return $"wwwroot/SpeciePhoto/{fileName}";
+            return $"wwwroot/{baseDirectory}/{fileName}";
         }
 
         public Task<Stream> GetStream(string path)
