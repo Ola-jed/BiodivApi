@@ -62,7 +62,6 @@ namespace BiodivApi
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Biodiv v1");
                 });
             }
-
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(OriginsAllowed);

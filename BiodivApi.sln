@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiodivApi", "BiodivApi\BiodivApi.csproj", "{065D5FC0-0A22-40A2-B542-7480896453D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiodivImageComparison", "BiodivImageComparison\BiodivImageComparison.csproj", "{07A97391-0292-4C53-B560-3F3B0B460213}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{065D5FC0-0A22-40A2-B542-7480896453D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{065D5FC0-0A22-40A2-B542-7480896453D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{065D5FC0-0A22-40A2-B542-7480896453D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A97391-0292-4C53-B560-3F3B0B460213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A97391-0292-4C53-B560-3F3B0B460213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A97391-0292-4C53-B560-3F3B0B460213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A97391-0292-4C53-B560-3F3B0B460213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
