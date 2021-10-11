@@ -1,5 +1,3 @@
-using BiodivApi.Entities.Enums;
-
 namespace BiodivApi.Data.Dtos
 {
     public record SpecieReadDto
@@ -7,11 +5,6 @@ namespace BiodivApi.Data.Dtos
         public int Id { get; init; }
         public string Name { get; init; }
         public string TaxonomicGroup { get; init; }
-        public string EnglishName { get; init; }
         public string ScientificName { get; init; }
-        public string Habitat { get; init; }
-        public string Description { get; init; }
-        public ConservationStatus Status { get; init; }
-        public string Threats { get; init; }
     }
 }
