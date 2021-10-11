@@ -46,8 +46,8 @@ namespace BiodivApi.Services.SpeciePhotoComparisonService
             SpeciePhoto photo,
             DeltaEAlgorithm deltaEAlgorithm = DeltaEAlgorithm.DeltaE76)
         {
-            var img = await Image.LoadAsync<Rgb24>(tempImageLocation);
-            var comparisonImage = await Image.LoadAsync<Rgb24>(photo.Photo);
+            using var img = await Image.LoadAsync<Rgb24>(tempImageLocation);
+            using var comparisonImage = await Image.LoadAsync<Rgb24>(photo.Photo);
             var minWidth = Math.Min(img.Width, comparisonImage.Width);
             var minHeight = Math.Min(img.Height, comparisonImage.Height);
             img.Mutate(i => i.Resize(minWidth,minHeight));
