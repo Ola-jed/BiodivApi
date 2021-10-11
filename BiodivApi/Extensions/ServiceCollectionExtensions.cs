@@ -46,7 +46,7 @@ namespace BiodivApi.Extensions
                     License = new OpenApiLicense
                     {
                         Name = "Use under GPLv3.0",
-                        Url = new Uri("https://github.com/Ola-jed/getThis/blob/master/LICENSE")
+                        Url = new Uri("https://github.com/Ola-jed/BiodivApi/blob/master/LICENSE")
                     }
                 });
             });
