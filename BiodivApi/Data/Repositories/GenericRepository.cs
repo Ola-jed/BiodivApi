@@ -32,7 +32,8 @@ namespace BiodivApi.Data.Repositories
             query = _dbContext.Model
                 .FindEntityType(typeof(T))
                 .GetNavigations()
-                .Aggregate(query, (current, property) => current.Include(property.Name));
+                .Aggregate(query, (current, property) => current.Include(property.Name))
+                .AsSplitQuery();
             return (await query.ToListAsync())
                 .OrderBy(_ => Guid.NewGuid())
                 .FirstOrDefault();
