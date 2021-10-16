@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Biodiv.Entities;
 using BiodivApi.Data.Repositories;
 using BiodivApi.Entities;
 using BiodivApi.Entities.Enums;
