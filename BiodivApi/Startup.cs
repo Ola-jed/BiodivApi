@@ -2,6 +2,7 @@ using System;
 using BiodivApi.Data.Repositories;
 using BiodivApi.Extensions;
 using BiodivApi.Services.ApiKeyService;
+using BiodivApi.Services.CacheService;
 using BiodivApi.Services.LocalDistributionsService;
 using BiodivApi.Services.LocalNamesService;
 using BiodivApi.Services.SpeciePhotoComparisonService;
@@ -32,6 +33,7 @@ namespace BiodivApi
         {
             services.ConfigurePgsql(Configuration);
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddSingleton<ICacheService, MemoryCacheService>();
             services.AddScoped<IApiKeyRepository, ApiKeyRepository>();
             services.AddScoped<ISpecieRepository, SpecieRepository>();
             services.AddScoped<ISpeciePhotoRepository, SpeciePhotoRepository>();
