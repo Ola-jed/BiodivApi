@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using BiodivApi.Attributes;
 using BiodivApi.Data.Dtos;
 using BiodivApi.Entities;
+using BiodivApi.Services.CacheService;
 using BiodivApi.Services.PaginatorService;
 using BiodivApi.Services.SpeciesService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BiodivApi.Controllers
 {
@@ -19,10 +21,13 @@ namespace BiodivApi.Controllers
     {
         private readonly ISpecieService _specieService;
         private readonly Dictionary<string, Func<string, Task<IEnumerable<SpecieReadDto>>>> _search;
+        private readonly ICacheService _cacheService;
 
-        public SpeciesController(ISpecieService specieService)
+        public SpeciesController(ISpecieService specieService,
+            ICacheService cacheService)
         {
             _specieService = specieService;
+            _cacheService = cacheService;
             _search = new Dictionary<string, Func<string, Task<IEnumerable<SpecieReadDto>>>>
             {
                 { "name", _specieService.FindByName },
@@ -35,29 +40,41 @@ namespace BiodivApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<SpecieReadDto>> GetAll([FromQuery] int pageSize = 20, [FromQuery] int pageNumber = 1)
+        public async Task<IEnumerable<SpecieReadDto>> GetAll([FromQuery] int pageSize = 20,
+            [FromQuery] int pageNumber = 1)
         {
             var paginator = new Paginator
             {
                 PageSize = pageSize,
                 PageNumber = pageNumber
             };
-            return await _specieService.GetAndPaginate(paginator);
+            var key = $"{nameof(GetAll)}-pageSize:{pageSize}-pageNumber:{pageNumber}";
+            Task<IEnumerable<SpecieReadDto>> Func() => _specieService.GetAndPaginate(paginator);
+            return await _cacheService.GetOrSet(key, Func);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id:int}",Name = "Get")]
+        [HttpGet("{id:int}", Name = "Get")]
         public async Task<ActionResult> Get(int id)
         {
-            var specie = await _specieService.GetSpecie(id);
+            var key = $"{nameof(Get)}-id:{id}";
+            async Task<Specie> Func() => await _specieService.GetSpecie(id);
+            var specie = await _cacheService.GetOrSet(key, Func);
             return specie == null ? NotFound() : Ok(specie);
         }
 
         [HttpGet("specie-of-the-day")]
         public async Task<Specie> GetSpecieOfTheDay()
         {
-            return await _specieService.GetRandomSpecie();
+            var cacheOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTime.Now.AddDays(1),
+                Priority = CacheItemPriority.Normal,
+                SlidingExpiration = TimeSpan.FromHours(1)
+            };
+            return await _cacheService.GetOrSet(nameof(GetSpecieOfTheDay), _specieService.GetRandomSpecie,
+                cacheOptions);
         }
 
         [HttpGet("search")]
