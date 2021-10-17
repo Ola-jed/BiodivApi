@@ -10,9 +10,9 @@ namespace BiodivApi.Services.CacheService
         private static readonly MemoryCacheEntryOptions MemoryCacheEntryOptions = new()
         {
             AbsoluteExpiration = DateTime.Now.AddDays(5),
-            Priority = CacheItemPriority.High,
+            Priority = CacheItemPriority.Normal,
             SlidingExpiration = TimeSpan.FromDays(2),
-            Size = 1024,
+            Size = 1024
         };
 
         public MemoryCacheService(IMemoryCache memoryCache)
